@@ -4,82 +4,119 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HAWK</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0A0814;background-image:linear-gradient(rgba(124,92,255,0.05) 1px, transparent 1px),linear-gradient(90deg, rgba(124,92,255,0.05) 1px, transparent 1px);background-size:40px 40px;color:#fff;font-family:'Space Grotesk',sans-serif;min-height:100vh;padding-bottom:120px}
-.top{padding:18px;text-align:center;color:#8A7A9E;font-size:11px;letter-spacing:1px}
-.logo{font-weight:800;letter-spacing:3px;font-size:22px;text-align:center;margin:18px 0}
-.label{text-align:center;color:#6B5A7E;font-size:11px;letter-spacing:3px;margin-bottom:12px;font-family:'JetBrains Mono'}
-.tabs{display:flex;background:#15111F;border:1px solid #2A2140;border-radius:16px;padding:4px;margin:0 16px 16px;gap:4px}
-.tab{flex:1;padding:12px;text-align:center;border-radius:12px;font-size:12px;font-weight:700;color:#6B5A7E;cursor:pointer;font-family:'JetBrains Mono'} .tab.active{background:#7C5CFF;color:#fff}
-.card{margin:0 16px;background:#101010;border:1px solid #2A2140;border-radius:20px;padding:16px}
-textarea{width:100%;background:transparent;border:none;color:#fff;font-size:16px;font-weight:600;outline:none;resize:none;min-height:60px}
-.count{text-align:right;color:#3A3450;font-size:11px;margin-top:8px;font-family:'JetBrains Mono'}
-.btn{margin:16px;background:#7C5CFF;border-radius:16px;padding:16px;text-align:center;font-weight:800;letter-spacing:2px;cursor:pointer}
-.verdict{margin:0 16px;background:#101010;border:1px solid #2A2140;border-radius:24px;padding:20px}
-.v-top{display:flex;gap:16px;align-items:center}
-.circle{width:80px;height:80px;border-radius:50%;border:4px solid #1EFF8A;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#1EFF8A}
-.v-t{color:#9D8CFF;font-size:10px;letter-spacing:3px;font-family:'JetBrains Mono'} .v-s{color:#1EFF8A;font-size:24px;font-weight:800} .v-sc{color:#5A5470;font-size:12px;font-family:'JetBrains Mono'} .v-d{margin-top:16px;padding-left:12px;border-left:2px solid #7C5CFF;color:#D0C8E8;font-size:13px}
-.nav{position:fixed;bottom:16px;left:16px;right:16px;background:#1A1628;border:1px solid #2A2140;border-radius:20px;display:flex;padding:10px;justify-content:space-around}
-.nav-item{flex:1;text-align:center;padding:8px;color:#5A5470;font-size:10px;font-family:'JetBrains Mono';cursor:pointer} .nav-item.active{color:#9D8CFF}
-.page{display:none} .page.active{display:block}
-input{width:100%;background:#15111F;border:1px solid #2A2140;color:#fff;padding:12px;border-radius:12px;margin:8px 0;outline:none}
-.task{display:flex;justify-content:space-between;align-items:center;background:#15111F;border:1px solid #2A2140;padding:14px;border-radius:14px;margin-bottom:10px}
-.stealth{position:fixed;bottom:2px;left:6px;width:26px;height:16px;opacity:0.08;background:transparent;border:1px solid #1A1628;border-radius:3px;color:transparent;font-size:10px;text-align:center;outline:none;z-index:9999}
+:root{--bg:#0c0a1a;--card:#17152d;--card2:#1f1d3a;--purple:#7c3aed;--red:#ff2a2a;--yellow:#ffb800;--green:#00e676}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:var(--bg);color:white;padding:14px 14px 90px}
+.header{display:flex;align-items:center;gap:10px}
+.hawk-logo{width:36px;height:36px;background:white;color:black;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;border-radius:8px}
+.logo-text{font-weight:900;letter-spacing:3px;font-size:22px}
+.hint{text-align:center;color:#5a5880;font-size:9px;letter-spacing:2px;margin:14px 0}
+.box{background:var(--card);border:1px solid #2a2850;border-radius:20px;padding:14px;margin:10px 0}
+.box input,.box textarea{width:100%;background:transparent;border:none;outline:none;color:white;font-size:14px}
+.box textarea{height:72px;resize:none}
+.tabs{display:flex;background:var(--card);border-radius:30px;padding:5px;gap:5px;margin:14px 0}
+.tab{flex:1;text-align:center;padding:12px;border-radius:25px;font-weight:800;font-size:12px;cursor:pointer;color:#6b6a8a}
+.tab.active{background:var(--purple);color:white}
+.btn{width:100%;background:var(--purple);border:none;color:white;padding:16px;border-radius:18px;font-weight:900;cursor:pointer;margin:8px 0}
+.result{background:var(--card);border-radius:22px;padding:18px;border:1px solid #2a2850;display:none;margin-top:12px}
+.circle{width:92px;height:92px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;border:6px solid}
+.threat{display:flex;justify-content:space-between;background:var(--card2);padding:11px;border-radius:12px;margin:7px 0;font-size:11px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:7px}
+.adminInput{background:#0f0e22;border:1px solid #2a2850;color:white;padding:11px;border-radius:12px;width:100%;margin:7px 0}
+.bottom{position:fixed;bottom:10px;left:14px;right:14px;background:var(--card);border-radius:22px;padding:12px;display:flex;justify-content:space-around;border:1px solid #2a2850}
+.bottom span{font-size:10px;color:#6b6a8a;cursor:pointer;text-align:center}
+.bottom span.active{color:#a78bfa}
 </style>
 </head>
 <body>
-<div class="top">Paste a link or message. HAWK will inspect the threat signals.</div>
-<div class="logo">◩ HAWK</div>
+<div class="header">
+<div class="hawk-logo">◩</div>
+<div class="logo-text">HAWK</div>
+</div>
+<div class="hint">PASTE LINK OR MESSAGE. HAWK WILL INSPECT</div>
 
-<div id="p-scan" class="page active">
-<div class="label">SCAN COMPLETE</div>
-<div class="tabs"><div class="tab" id="tL" onclick="switchM('link')">LINK SCAN</div><div class="tab active" id="tM" onclick="switchM('msg')">MESSAGE SCAN</div></div>
-<div class="card"><textarea id="inp" oninput="cnt()">Tap this to win 10000p</textarea><div class="count" id="cc">23/1800</div></div>
-<div class="btn" onclick="deploy()">DEPLOY HAWK ></div>
-<div class="verdict"><div class="v-top"><div class="circle" id="sc">7</div><div><div class="v-t">HAWK VERDICT</div><div class="v-s" id="vs">LOW RISK</div><div class="v-sc" id="vsc">RISK SCORE 7/100</div></div></div><div class="v-d" id="vd">No obvious local warning pattern was detected.</div></div>
+<div class="box" id="linkBox"><input id="linkInput" placeholder="Paste suspicious link or message"></div>
+<div class="box" id="msgBox" style="display:none"><textarea id="msgInput" placeholder="Paste message here..."></textarea></div>
+
+<div class="tabs">
+<div class="tab active" id="tabLink" onclick="setMode('link')">LINK SCAN</div>
+<div class="tab" id="tabMsg" onclick="setMode('msg')">MESSAGE SCAN</div>
 </div>
 
-<div id="p-rewards" class="page"><div class="label">REWARDS</div><div class="card" style="margin-bottom:16px;display:flex;justify-content:space-between"><span style="color:#8A7A9E">YOUR POINTS</span><b id="pb" style="color:#1EFF8A">0</b></div><div id="tList" style="margin:0 16px"></div></div>
-<div id="p-profile" class="page"><div class="label">PROFILE</div><div class="card"><b id="pb2" style="font-size:32px;color:#1EFF8A">0</b><div style="margin-top:12px"><input id="ref" readonly><button onclick="navigator.clipboard.writeText(document.getElementById('ref').value);alert('Copied')" style="background:#7C5CFF;border:none;color:#fff;padding:8px 16px;border-radius:10px;margin-top:8px">COPY LINK</button></div></div></div>
-<div id="p-admin" class="page"><div class="label">ADMIN - YOUR DEVICE ONLY</div><div class="card" style="border:1px dashed #7C5CFF"><b>ADD TASK</b><input id="tt" placeholder="Title"><input id="tp" placeholder="Points" type="number"><input id="tl" placeholder="Link"><div class="btn" onclick="addT()">ADD TASK</div></div><div class="card" style="margin-top:16px"><div id="aList"></div></div><div class="btn" style="background:#222" onclick="goP('scan')">CLOSE</div><div class="btn" style="background:#111;border:1px solid #333" onclick="if(confirm('Reset admin PIN?')){localStorage.removeItem('hawk_admin_pin');alert('PIN reset. Type new PIN in stealth box');goP('scan')}">RESET MY PIN</div></div>
+<button class="btn" onclick="deployHawk()">DEPLOY HAWK ></button>
 
-<div class="nav"><div class="nav-item active" id="n-scan" onclick="goP('scan')"><b>≋</b>SCAN</div><div class="nav-item" id="n-rewards" onclick="goP('rewards')"><b>◈</b>REWARDS</div><div class="nav-item" id="n-profile" onclick="goP('profile')"><b>◎</b>PROFILE</div></div>
-<input class="stealth" id="stealthBox">
+<div class="result" id="result">
+<div style="display:flex;gap:16px;align-items:center">
+<div class="circle" id="scoreCircle">0</div>
+<div><div style="font-size:9px;letter-spacing:2px;color:#6b6a8a">HAWK VERDICT</div>
+<div id="verdict" style="font-weight:900;font-size:24px"></div>
+<div style="font-size:11px;color:#6b6a8a">RISK SCORE <span id="scoreNum">0</span>/100</div></div>
+</div>
+<div id="reason" style="margin:14px 0;padding:10px 12px;border-left:4px solid var(--purple);background:#0f0e22;border-radius:8px;color:#c4c2e0;font-size:12px"></div>
+<div id="signals"></div>
+<div style="background:#0f0e22;border-radius:14px;padding:12px;margin-top:12px">
+<div style="display:flex;align-items:center;gap:6px;font-size:10px;color:#a78bfa;font-weight:800"><span style="width:20px;height:20px;background:white;color:black;display:flex;align-items:center;justify-content:center;border-radius:4px">◩</span> HAWK INTEL</div>
+<div id="aiReason" style="font-size:12px;color:#d1d0e6;margin-top:8px;line-height:1.5"></div>
+<input id="askInput" class="adminInput" placeholder="Ask HAWK: Why is this risky?" onkeypress="if(event.key==='Enter') askHawk()">
+</div>
+</div>
+
+<div class="box" id="adminPanel" style="display:none">
+<div style="display:flex;align-items:center;gap:8px"><div class="hawk-logo" style="width:28px;height:28px;font-size:14px">◩</div><h3>HAWK ADMIN</h3></div>
+<input id="pinInput" class="adminInput" type="password" placeholder="Enter PIN">
+<button class="btn" style="padding:11px" onclick="unlockAdmin()">UNLOCK</button>
+<div id="adminInside" style="display:none">
+<div style="display:flex;gap:10px;margin:12px 0">
+<div style="flex:1;background:var(--card2);padding:12px;border-radius:14px;text-align:center"><div id="total" style="font-size:22px;font-weight:900">0</div><div style="font-size:8px;color:#6b6a8a">TOTAL SCANS</div></div>
+<div style="flex:1;background:var(--card2);padding:12px;border-radius:14px;text-align:center"><div id="high" style="font-size:22px;font-weight:900;color:var(--red)">0</div><div style="font-size:8px;color:#6b6a8a">HIGH RISK SCANS</div></div>
+</div>
+<div id="history" style="max-height:180px;overflow:auto;font-size:11px;color:#8a89a8;background:#0f0e22;border-radius:12px;padding:8px"></div>
+<button class="btn" style="background:var(--red);font-size:11px;padding:10px" onclick="clearAll()">Clear All Scans</button>
+</div>
+</div>
+
+<div class="bottom">
+<span class="active" onclick="showPage('scan')"><span style="font-size:14px">◩</span><br>SCAN</span>
+<span onclick="showPage('admin')">◉<br>ADMIN</span>
+</div>
 
 <script>
-// NO PIN HERE - PIN SAVES ONLY IN YOUR BROWSER
-function switchM(m){document.getElementById('tL').classList.toggle('active',m==='link');document.getElementById('tM').classList.toggle('active',m==='msg')}
-function cnt(){document.getElementById('cc').textContent=document.getElementById('inp').value.length+'/1800'}
-function goP(p){document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');let n=document.getElementById('n-'+p);if(n)n.classList.add('active');render()}
-function deploy(){let v=document.getElementById('inp').value.trim();if(!v)return;let s=7+Math.floor(Math.random()*6),t=v.toLowerCase();if(t.includes('win')||t.includes('10000'))s+=25;if(t.includes('wallet')||t.includes('verify'))s+=35;s=Math.min(98,s);document.getElementById('sc').textContent=s;document.getElementById('vsc').textContent='RISK SCORE '+s+'/100';let st=document.getElementById('vs'),ci=document.getElementById('sc');if(s<30){st.textContent='LOW RISK';st.style.color=ci.style.borderColor=ci.style.color='#1EFF8A'}else if(s<70){st.textContent='MEDIUM RISK';st.style.color=ci.style.borderColor=ci.style.color='#FFB020'}else{st.textContent='HIGH RISK';st.style.color=ci.style.borderColor=ci.style.color='#FF3B5C'}localStorage.setItem('hawk_points',(parseInt(localStorage.getItem('hawk_points')||'0')+10));render()}
-function getT(){return JSON.parse(localStorage.getItem('hawk_tasks')||'[{"title":"Follow HAWK on X","points":500,"link":"https://x.com"}]')}
-function render(){let p=localStorage.getItem('hawk_points')||'0';document.getElementById('pb').textContent=p;document.getElementById('pb2').textContent=p;document.getElementById('ref').value=location.href.split('?')[0]+'?ref=123';let ts=getT();document.getElementById('tList').innerHTML=ts.map((t,i)=>`<div class="task"><div><b>${t.title}</b><br><span style="color:#8A7A9E;font-size:11px">${t.points} pts</span></div><button onclick="window.open('${t.link}','_blank');localStorage.setItem('hawk_points',(parseInt(localStorage.getItem('hawk_points')||'0')+parseInt(${t.points})));render()" style="background:#7C5CFF;border:none;color:#fff;padding:8px 14px;border-radius:10px">DO</button></div>`).join('');document.getElementById('aList').innerHTML=ts.map((t,i)=>`<div class="task" onclick="if(confirm('Delete?')){let a=getT();a.splice(${i},1);localStorage.setItem('hawk_tasks',JSON.stringify(a));render()}"><div><b>${t.title}</b></div><span style="color:#FF3B5C">DEL</span></div>`).join('')}
-function addT(){let t=document.getElementById('tt').value,p=document.getElementById('tp').value,l=document.getElementById('tl').value;if(!t||!p)return alert('Fill');let ts=getT();ts.push({title:t,points:p,link:l});localStorage.setItem('hawk_tasks',JSON.stringify(ts));document.getElementById('tt').value='';document.getElementById('tp').value='';document.getElementById('tl').value='';render();alert('Added')}
-
-// STEALTH LOGIC - PIN ONLY IN YOUR PHONE
-const box=document.getElementById('stealthBox');
-box.addEventListener('keydown',e=>{
-  if(e.key==='Enter'){
-    let entered=box.value.trim();
-    let saved=localStorage.getItem('hawk_admin_pin');
-    if(!saved){
-      // First time - set your PIN
-      if(entered.length<3) return alert('PIN too short, use 4+ digits');
-      localStorage.setItem('hawk_admin_pin',entered);
-      alert('Your secret PIN saved ONLY on this phone: '+entered+'\nNext time type same PIN to open admin');
-      goP('admin'); box.value='';
-    } else {
-      // Check PIN
-      if(entered===saved){ goP('admin'); box.value=''; }
-      else { box.value=''; box.style.borderColor='#FF3B5C'; setTimeout(()=>box.style.borderColor='#1A1628',800); }
-    }
-  }
-});
-if(window.Telegram?.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand()}
-cnt();render();
+const PIN_HASH = "d0d9f11d1bf405757a83913bd23dd8abb03ba758bb72de44163b2f921218a391";
+async function hashPIN(pin){const enc=new TextEncoder().encode(pin);const buf=await crypto.subtle.digest('SHA-256',enc);return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+let MODE='link'; let HISTORY=JSON.parse(localStorage.getItem('hawk_h')||'[]');
+function setMode(m){MODE=m;document.getElementById('tabLink').classList.toggle('active',m==='link');document.getElementById('tabMsg').classList.toggle('active',m==='msg');document.getElementById('linkBox').style.display=m==='link'?'block':'none';document.getElementById('msgBox').style.display=m==='msg'?'block':'none';}
+function showPage(p){document.getElementById('result').style.display=p==='scan'&&document.getElementById('result').dataset.has?'block':'none';document.getElementById('adminPanel').style.display=p==='admin'?'block':'none';document.querySelectorAll('.bottom span').forEach((s,i)=>s.classList.toggle('active',(p==='scan'&&i===0)||(p==='admin'&&i===1)));}
+function analyze(text){
+let lower=text.toLowerCase();let score=0,reasons=[],signals=[];
+if(lower.match(/bank|bvn|account|pin|card/)){score+=45;signals.push(['Bank Data Request','BAD','red']);reasons.push('Requests bank/BVN/PIN - banks never do this');}else signals.push(['Bank Data','GOOD','green']);
+if(lower.match(/win|won|congrat|lottery|prize/)){score+=35;signals.push(['Fake Win Lure','BAD','red']);reasons.push('Fake win/prize lure');}
+if(lower.match(/urgent|immediately|verify|click/)){score+=10;signals.push(['Urgency Trick','WARN','yellow']);}
+if(text.startsWith('http')){try{let u=new URL(text);if(u.protocol!=='https:'){score+=20;signals.push(['No HTTPS','BAD','red']);} if(u.hostname.split('.').length>4)score+=10;}catch(e){score+=20}}
+if(lower.includes('bank')&&lower.includes('win'))score=94;
+if(score===0){signals.push(['Structure','GOOD','green']);reasons.push('No critical pattern detected');}
+let aiExp=score>=75?'🚨 HIGH RISK CONFIRMED. This matches known fraud pattern. Do not send details, block sender.':score>=40?'⚠️ MEDIUM RISK. Verify sender before any action.':'✅ LOW RISK. Still stay vigilant.';
+return{score:Math.min(score,99),reasons,signals,aiExp}
+}
+function deployHawk(){
+let text=(MODE==='link'?document.getElementById('linkInput').value:document.getElementById('msgInput').value).trim();if(!text)return alert('Paste something');
+let ai=analyze(text);
+let res=document.getElementById('result');res.style.display='block';res.dataset.has='1';
+let circle=document.getElementById('scoreCircle');let verdict=document.getElementById('verdict');
+circle.textContent=ai.score;document.getElementById('scoreNum').textContent=ai.score;
+if(ai.score>=75){circle.style.borderColor='var(--red)';circle.style.color='var(--red)';circle.style.background='#ff2a2a18';verdict.textContent='HIGH RISK';verdict.style.color='var(--red)';document.getElementById('reason').style.borderColor='var(--red)';}
+else if(ai.score>=40){circle.style.borderColor='var(--yellow)';circle.style.color='var(--yellow)';circle.style.background='#ffb80018';verdict.textContent='MEDIUM RISK';verdict.style.color='var(--yellow)';document.getElementById('reason').style.borderColor='var(--yellow)';}
+else{circle.style.borderColor='var(--green)';circle.style.color='var(--green)';circle.style.background='#00e67618';verdict.textContent='LOW RISK';verdict.style.color='var(--green)';document.getElementById('reason').style.borderColor='var(--green)';}
+document.getElementById('reason').innerHTML='• '+ai.reasons.join('<br>• ');
+document.getElementById('signals').innerHTML=ai.signals.map(s=>{let col=s[2]==='red'?'var(--red)':s[2]==='yellow'?'var(--yellow)':'var(--green)';return `<div class="threat"><span><span class="dot" style="background:${col}"></span>${s[0]}</span><span style="color:${col};font-weight:800">${s[1]}</span></div>`}).join('');
+document.getElementById('aiReason').innerHTML=ai.aiExp;
+HISTORY.unshift({time:new Date().toLocaleString(),score:ai.score,text:text.slice(0,55)});localStorage.setItem('hawk_h',JSON.stringify(HISTORY.slice(0,100)));updateAdmin();res.scrollIntoView({behavior:'smooth'});
+}
+function askHawk(){let q=document.getElementById('askInput').value.trim();if(!q)return;let score=parseInt(document.getElementById('scoreNum').textContent)||0;let ans=score>=75?'Because score '+score+' RED. Requests bank details + win lure = classic scam. Do not click.':'No critical risk but verify source.';document.getElementById('aiReason').innerHTML=ans;document.getElementById('askInput').value='';}
+async function unlockAdmin(){let h=await hashPIN(document.getElementById('pinInput').value);if(h===PIN_HASH){document.getElementById('adminInside').style.display='block';updateAdmin();}else alert('Wrong PIN');}
+function updateAdmin(){document.getElementById('total').textContent=HISTORY.length;document.getElementById('high').textContent=HISTORY.filter(h=>h.score>=75).length;document.getElementById('history').innerHTML=HISTORY.map(h=>`<div style="padding:7px;border-bottom:1px solid #1f1d3a;display:flex;justify-content:space-between"><span style="color:${h.score>=75?'var(--red)':h.score>=40?'var(--yellow)':'var(--green)'};font-weight:800">[${h.score}]</span><span style="flex:1;margin:0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${h.text}</span><span style="color:#5a5880">${h.time}</span></div>`).join('')||'No scans yet';}
+function clearAll(){if(confirm('Clear all scans?')){HISTORY=[];localStorage.removeItem('hawk_h');updateAdmin();}}
+updateAdmin();
 </script>
 </body>
-  </html>
+</html>
