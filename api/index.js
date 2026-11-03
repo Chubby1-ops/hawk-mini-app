@@ -306,7 +306,7 @@ async function aiScan(
 
   const model =
     process.env.GEMINI_MODEL ||
-    "gemini-2.5-flash";
+    "gemini-1.5-flash";
 
   const prompt = `
 You are HAWK, an AI-powered defensive scam-risk analyst.
@@ -719,4 +719,3 @@ export default async function handler(
     );
   }
       }
-        
